@@ -120,7 +120,11 @@ type XLSX struct {
 
 func (f *XLSX) View() ([]byte, error) {
 	// https://git.io/vXOHi
-	return exec.Command("xlsx2tsv.py", f.Name).Output()
+	out, err := exec.Command("xlsx2tsv.py", f.Name).Output()
+	if err == nil {
+		return out, err
+	}
+	return exec.Command("xlsx2tsv.py", f.Name, "1").Output()
 }
 
 type DMG struct {
