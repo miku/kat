@@ -20,7 +20,7 @@ const help = `kat - Preview.app for the command line
 (_)  (_)_(_)_  _  _ (_)_ (_)_  _(_)    
 (_)    (_) (_)(_)(_)  (_)  (_)(_)    
 
-Plain text, directories, PDF, JPG, PNG, MARC, zip, tgz, rar, mp3.
+Plain text, directories, PDF, JPG, PNG, MARC, zip, tgz, rar, mp3, odt.
 
 $ kat FILE
 `
@@ -95,6 +95,15 @@ func (f *Rar) View() ([]byte, error) {
 	return exec.Command("unrar", "l", f.Name).Output()
 }
 
+type ODT struct {
+	File
+}
+
+func (f *ODT) View() ([]byte, error) {
+	return exec.Command("docd", "-input", f.Name).Output()
+}
+
+
 func DispatchFile(s string) (Viewer, error) {
 	switch {
 	case strings.HasSuffix(s, ".pdf"):
@@ -113,6 +122,8 @@ func DispatchFile(s string) (Viewer, error) {
 		return &MP3{File{Name: s}}, nil
 	case strings.HasSuffix(s, ".rar"):
 		return &Rar{File{Name: s}}, nil
+	case strings.HasSuffix(s, ".odt"):
+		return &ODT{File{Name: s}}, nil
 	default:
 		return &File{Name: s}, nil
 	}
