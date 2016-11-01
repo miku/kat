@@ -79,6 +79,22 @@ func (f *TGZ) View() ([]byte, error) {
 	return exec.Command("tar", "tf", f.Name).Output()
 }
 
+type MP3 struct {
+	File
+}
+
+func (f *MP3) View() ([]byte, error) {
+	return exec.Command("mp3info", "-x", f.Name).Output()
+}
+
+type Rar struct {
+	File
+}
+
+func (f *Rar) View() ([]byte, error) {
+	return exec.Command("unrar", "l", f.Name).Output()
+}
+
 func DispatchFile(s string) (Viewer, error) {
 	switch {
 	case strings.HasSuffix(s, ".pdf"):
@@ -93,6 +109,10 @@ func DispatchFile(s string) (Viewer, error) {
 		return &Zipfile{File{Name: s}}, nil
 	case strings.HasSuffix(s, ".tgz"):
 		return &TGZ{File{Name: s}}, nil
+	case strings.HasSuffix(s, ".mp3"):
+		return &MP3{File{Name: s}}, nil
+	case strings.HasSuffix(s, ".rar"):
+		return &Rar{File{Name: s}}, nil
 	default:
 		return &File{Name: s}, nil
 	}
