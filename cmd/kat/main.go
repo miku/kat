@@ -103,6 +103,14 @@ func (f *ODT) View() ([]byte, error) {
 	return exec.Command("docd", "-input", f.Name).Output()
 }
 
+type Word struct {
+	File
+}
+
+func (f *Word) View() ([]byte, error) {
+	return exec.Command("antiword", f.Name).Output()
+}
+
 
 func DispatchFile(s string) (Viewer, error) {
 	switch {
@@ -124,6 +132,10 @@ func DispatchFile(s string) (Viewer, error) {
 		return &Rar{File{Name: s}}, nil
 	case strings.HasSuffix(s, ".odt"):
 		return &ODT{File{Name: s}}, nil
+	case strings.HasSuffix(s, ".docx"):
+		return &ODT{File{Name: s}}, nil
+	case strings.HasSuffix(s, ".doc"):
+		return &Word{File{Name: s}}, nil
 	default:
 		return &File{Name: s}, nil
 	}
