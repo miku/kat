@@ -3,6 +3,16 @@ kat
 
 Kat is like [Preview.app](https://en.wikipedia.org/wiki/Preview_(macOS)) for the command-line.
 
+Installation
+------------
+
+```
+$ go get github.com/miku/kat/cmd/kat
+```
+
+Usage
+-----
+
 ```
 kat - Preview.app for the command line
  _                        _            
