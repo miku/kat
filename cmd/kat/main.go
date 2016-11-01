@@ -20,7 +20,7 @@ const help = `kat - Preview.app for the command line
 (_)  (_)_(_)_  _  _ (_)_ (_)_  _(_)    
 (_)    (_) (_)(_)(_)  (_)  (_)(_)    
 
-Plain text, directories, PDF, JPG, PNG, MARC, zip, tgz, rar, mp3, odt, doc, docx.
+Plain text, directories, PDF, JPG, PNG, MARC, zip, tgz, rar, mp3, odt, doc, docx, xlsx.
 
 $ kat FILE
 `
@@ -113,6 +113,14 @@ func (f *Word) View() ([]byte, error) {
 	return exec.Command("antiword", f.Name).Output()
 }
 
+type XLSX struct {
+	File
+}
+
+func (f *XLSX) View() ([]byte, error) {
+	// https://git.io/vXOHi
+	return exec.Command("xlsx2tsv.py", f.Name).Output()
+}
 
 func DispatchFile(s string) (Viewer, error) {
 	switch {
@@ -138,6 +146,8 @@ func DispatchFile(s string) (Viewer, error) {
 		return &ODT{File{Name: s}}, nil
 	case strings.HasSuffix(s, ".doc"):
 		return &Word{File{Name: s}}, nil
+	case strings.HasSuffix(s, ".xlsx"):
+		return &XLSX{File{Name: s}}, nil
 	default:
 		return &File{Name: s}, nil
 	}
