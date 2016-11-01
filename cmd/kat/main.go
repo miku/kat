@@ -25,6 +25,8 @@ Plain text, directories, PDF, JPG, PNG, MARC, zip, tgz, rar, mp3, odt, doc, docx
 $ kat FILE
 `
 
+const Version = "0.1.0"
+
 var ErrUnsupportedFiletype = errors.New("unsupported file type")
 
 type Viewer interface {
@@ -143,11 +145,20 @@ func DispatchFile(s string) (Viewer, error) {
 }
 
 func main() {
+	version := flag.Bool("version", false, "show version")
+
 	flag.Parse()
+
+	if *version {
+		fmt.Println(Version)
+		os.Exit(0)
+	}
+
 	if flag.NArg() == 0 {
 		fmt.Println(help)
 		os.Exit(0)
 	}
+
 	for _, arg := range flag.Args() {
 		if st, err := os.Stat(arg); err == nil {
 			if st.IsDir() {
