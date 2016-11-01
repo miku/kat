@@ -11,17 +11,16 @@ import (
 )
 
 const help = `kat - Preview.app for the command line
+ _                        _            
+(_)                      (_)           
+(_)     _   _  _  _    _ (_) _  _      
+(_)   _(_) (_)(_)(_) _(_)(_)(_)(_)     
+(_) _(_)    _  _  _ (_)  (_)           
+(_)(_)_   _(_)(_)(_)(_)  (_)     _     
+(_)  (_)_(_)_  _  _ (_)_ (_)_  _(_)    
+(_)    (_) (_)(_)(_)  (_)  (_)(_)    
 
-supported file types:
-
-* plain text
-* directories
-* PDF
-* JPG, PNG
-* MARC
-* Zipfiles
-
-----
+Plain text, directories, PDF, JPG, PNG, MARC, zip.
 
 $ kat FILE
 `
@@ -99,7 +98,7 @@ func main() {
 	for _, arg := range flag.Args() {
 		if st, err := os.Stat(arg); err == nil {
 			if st.IsDir() {
-				out, err := exec.Command("ls", arg).Output()
+				out, err := exec.Command("tree", "-sh", arg).Output()
 				if err != nil {
 					log.Fatal(err)
 				}
