@@ -20,7 +20,7 @@ const help = `kat - Preview.app for the command line
 (_)  (_)_(_)_  _  _ (_)_ (_)_  _(_)    
 (_)    (_) (_)(_)(_)  (_)  (_)(_)    
 
-Plain text, directories, PDF, JPG, PNG, MARC, zip, tgz, rar, mp3, odt, doc, docx, xlsx, tar, tar.gz, dmg, djvu.
+Plain text, directories, PDF, JPG, PNG, gif, MARC, zip, tgz, rar, mp3, odt, doc, docx, xlsx, tar, tar.gz, dmg, djvu.
 
 $ kat FILE
 `
@@ -145,6 +145,8 @@ func DispatchFile(s string) (Viewer, error) {
 	case strings.HasSuffix(s, ".jpg"):
 		return &Image{File{Name: s}}, nil
 	case strings.HasSuffix(s, ".png"):
+		return &Image{File{Name: s}}, nil
+	case strings.HasSuffix(s, ".gif"):
 		return &Image{File{Name: s}}, nil
 	case strings.HasSuffix(s, ".mrc"):
 		return &BinaryMARC21{File{Name: s}}, nil
