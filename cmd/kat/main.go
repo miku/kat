@@ -40,6 +40,14 @@ func (f *Image) View() ([]byte, error) {
 	return exec.Command("catimg", "-w", "192", f.Name).Output()
 }
 
+type BinaryMARC21 struct {
+	File
+}
+
+func (f *BinaryMARC21) View() ([]byte, error) {
+	return exec.Command("marcdump", f.Name).Output()
+}
+
 func DispatchFile(s string) (Viewer, error) {
 	switch {
 	case strings.HasSuffix(s, ".pdf"):
@@ -48,6 +56,8 @@ func DispatchFile(s string) (Viewer, error) {
 		return &Image{File{Name: s}}, nil
 	case strings.HasSuffix(s, ".png"):
 		return &Image{File{Name: s}}, nil
+	case strings.HasSuffix(s, ".mrc"):
+		return &BinaryMARC21{File{Name: s}}, nil
 	default:
 		return &File{Name: s}, nil
 	}
