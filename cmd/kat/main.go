@@ -48,6 +48,14 @@ func (f *BinaryMARC21) View() ([]byte, error) {
 	return exec.Command("marcdump", f.Name).Output()
 }
 
+type Zipfile struct {
+	File
+}
+
+func (f *Zipfile) View() ([]byte, error) {
+	return exec.Command("unzip", "-l", f.Name).Output()
+}
+
 func DispatchFile(s string) (Viewer, error) {
 	switch {
 	case strings.HasSuffix(s, ".pdf"):
@@ -58,6 +66,8 @@ func DispatchFile(s string) (Viewer, error) {
 		return &Image{File{Name: s}}, nil
 	case strings.HasSuffix(s, ".mrc"):
 		return &BinaryMARC21{File{Name: s}}, nil
+	case strings.HasSuffix(s, ".zip"):
+		return &Zipfile{File{Name: s}}, nil
 	default:
 		return &File{Name: s}, nil
 	}
