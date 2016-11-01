@@ -10,6 +10,22 @@ import (
 	"strings"
 )
 
+const help = `kat - Preview.app for the command line
+
+supported file types:
+
+* plain text
+* directories
+* PDF
+* JPG, PNG
+* MARC
+* Zipfiles
+
+----
+
+$ kat FILE
+`
+
 var ErrUnsupportedFiletype = errors.New("unsupported file type")
 
 type Viewer interface {
@@ -76,6 +92,10 @@ func DispatchFile(s string) (Viewer, error) {
 
 func main() {
 	flag.Parse()
+	if flag.NArg() == 0 {
+		fmt.Println(help)
+		os.Exit(0)
+	}
 	for _, arg := range flag.Args() {
 		if st, err := os.Stat(arg); err == nil {
 			if st.IsDir() {
