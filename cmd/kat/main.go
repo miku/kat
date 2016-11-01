@@ -20,7 +20,7 @@ const help = `kat - Preview.app for the command line
 (_)  (_)_(_)_  _  _ (_)_ (_)_  _(_)    
 (_)    (_) (_)(_)(_)  (_)  (_)(_)    
 
-Plain text, directories, PDF, JPG, PNG, MARC, zip, tgz, rar, mp3, odt, doc, docx, xlsx, tar, tar.gz.
+Plain text, directories, PDF, JPG, PNG, MARC, zip, tgz, rar, mp3, odt, doc, docx, xlsx, tar, tar.gz, dmg.
 
 $ kat FILE
 `
@@ -122,6 +122,14 @@ func (f *XLSX) View() ([]byte, error) {
 	return exec.Command("xlsx2tsv.py", f.Name).Output()
 }
 
+type DMG struct {
+	File
+}
+
+func (f *DMG) View() ([]byte, error) {
+	return exec.Command("hdiutil", "imageinfo", f.Name).Output()
+}
+
 func DispatchFile(s string) (Viewer, error) {
 	switch {
 	case strings.HasSuffix(s, ".pdf"):
@@ -152,6 +160,8 @@ func DispatchFile(s string) (Viewer, error) {
 		return &Word{File{Name: s}}, nil
 	case strings.HasSuffix(s, ".xlsx"):
 		return &XLSX{File{Name: s}}, nil
+	case strings.HasSuffix(s, ".dmg"):
+		return &DMG{File{Name: s}}, nil
 	default:
 		return &File{Name: s}, nil
 	}
