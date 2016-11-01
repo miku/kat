@@ -24,7 +24,7 @@ kat - Preview.app for the command line
 (_)  (_)_(_)_  _  _ (_)_ (_)_  _(_)    
 (_)    (_) (_)(_)(_)  (_)  (_)(_)    
 
-Plain text, directories, PDF, JPG, PNG, MARC, zip, tgz, rar, mp3, odt, doc, docx, xlsx.
+Plain text, directories, PDF, JPG, PNG, MARC, zip, tgz, rar, mp3, odt, doc, docx, xlsx, tar, tar.gz.
 
 $ kat FILE
 ```
