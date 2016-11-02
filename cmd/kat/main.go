@@ -39,6 +39,9 @@ type File struct {
 }
 
 func (f *File) View() ([]byte, error) {
+	if _, err := exec.LookPath("cat"); err != nil {
+		return nil, fmt.Errorf("cat is required")
+	}
 	return exec.Command("cat", f.Name).Output()
 }
 
@@ -47,6 +50,9 @@ type PDF struct {
 }
 
 func (f *PDF) View() ([]byte, error) {
+	if _, err := exec.LookPath("pdftotext"); err != nil {
+		return nil, fmt.Errorf("pdftotext is required")
+	}
 	return exec.Command("pdftotext", f.Name, "-").Output()
 }
 
@@ -55,6 +61,9 @@ type Image struct {
 }
 
 func (f *Image) View() ([]byte, error) {
+	if _, err := exec.LookPath("catimg"); err != nil {
+		return nil, fmt.Errorf("catimg is required")
+	}
 	return exec.Command("catimg", "-w", "192", f.Name).Output()
 }
 
@@ -63,7 +72,10 @@ type BinaryMARC21 struct {
 }
 
 func (f *BinaryMARC21) View() ([]byte, error) {
-	return exec.Command("marcdump", f.Name).Output()
+	if _, err := exec.LookPath("yaz-marcdump"); err != nil {
+		return nil, fmt.Errorf("yaz-marcdump is required")
+	}
+	return exec.Command("yaz-marcdump", f.Name).Output()
 }
 
 type Zipfile struct {
@@ -71,6 +83,9 @@ type Zipfile struct {
 }
 
 func (f *Zipfile) View() ([]byte, error) {
+	if _, err := exec.LookPath("unzip"); err != nil {
+		return nil, fmt.Errorf("unzip is required")
+	}
 	return exec.Command("unzip", "-l", f.Name).Output()
 }
 
@@ -79,6 +94,9 @@ type TGZ struct {
 }
 
 func (f *TGZ) View() ([]byte, error) {
+	if _, err := exec.LookPath("tar"); err != nil {
+		return nil, fmt.Errorf("tar is required")
+	}
 	return exec.Command("tar", "tf", f.Name).Output()
 }
 
@@ -87,6 +105,9 @@ type MP3 struct {
 }
 
 func (f *MP3) View() ([]byte, error) {
+	if _, err := exec.LookPath("mp3info"); err != nil {
+		return nil, fmt.Errorf("mp3info is required")
+	}
 	return exec.Command("mp3info", "-x", f.Name).Output()
 }
 
@@ -95,6 +116,9 @@ type Rar struct {
 }
 
 func (f *Rar) View() ([]byte, error) {
+	if _, err := exec.LookPath("unrar"); err != nil {
+		return nil, fmt.Errorf("unrar is required")
+	}
 	return exec.Command("unrar", "l", f.Name).Output()
 }
 
@@ -103,6 +127,9 @@ type ODT struct {
 }
 
 func (f *ODT) View() ([]byte, error) {
+	if _, err := exec.LookPath("docd"); err != nil {
+		return nil, fmt.Errorf("docd is required")
+	}
 	return exec.Command("docd", "-input", f.Name).Output()
 }
 
@@ -111,6 +138,9 @@ type Word struct {
 }
 
 func (f *Word) View() ([]byte, error) {
+	if _, err := exec.LookPath("antiword"); err != nil {
+		return nil, fmt.Errorf("antiword is required")
+	}
 	return exec.Command("antiword", f.Name).Output()
 }
 
@@ -120,6 +150,9 @@ type XLSX struct {
 
 func (f *XLSX) View() ([]byte, error) {
 	// https://git.io/vXOHi
+	if _, err := exec.LookPath("xlsx2tsv.py"); err != nil {
+		return nil, fmt.Errorf("xlsx2tsv is required, https://git.io/vXOHi")
+	}
 	out, err := exec.Command("xlsx2tsv.py", f.Name).Output()
 	if err == nil {
 		return out, err
@@ -132,6 +165,9 @@ type DMG struct {
 }
 
 func (f *DMG) View() ([]byte, error) {
+	if _, err := exec.LookPath("hdiutil"); err != nil {
+		return nil, fmt.Errorf("hdiutil is required")
+	}
 	return exec.Command("hdiutil", "imageinfo", f.Name).Output()
 }
 
@@ -140,6 +176,9 @@ type Djvu struct {
 }
 
 func (f *Djvu) View() ([]byte, error) {
+	if _, err := exec.LookPath("djvutxt"); err != nil {
+		return nil, fmt.Errorf("djvutxt is required")
+	}
 	return exec.Command("djvutxt", f.Name).Output()
 }
 
