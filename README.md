@@ -30,4 +30,4 @@ doc, docx, xlsx, tar, tar.gz, dmg, djvu.
 $ kat FILE
 ```
 
-![](docs/56slm0dv2tx0sztdyhll08x2f.gif)
+![](docs/63qroppw4y5irohpkcyqpck0t.gif)
