@@ -251,7 +251,6 @@ func DispatchFile(s string) (Viewer, error) {
 	default:
 		return &File{Name: s}, nil
 	}
-	return nil, ErrUnsupportedFiletype
 }
 
 func main() {
