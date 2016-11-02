@@ -26,7 +26,7 @@ doc, docx, xlsx, tar, tar.gz, dmg, djvu.
 $ kat FILE
 `
 
-const Version = "0.1.1"
+const Version = "0.1.2"
 
 var ErrUnsupportedFiletype = errors.New("unsupported file type")
 
