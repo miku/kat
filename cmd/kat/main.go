@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"log"
@@ -28,9 +27,6 @@ $ kat FILE
 
 // Version.
 const Version = "0.1.2"
-
-// ErrUnsupportedFiletype, when file
-var ErrUnsupportedFiletype = errors.New("unsupported file type")
 
 // Viewer emits a view of a thing.
 type Viewer interface {
