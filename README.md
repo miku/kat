@@ -10,6 +10,13 @@ Installation
 $ go get github.com/miku/kat/cmd/kat
 ```
 
+Idea
+----
+
+This project is nothing a shell script could not do. Displaying is outsourced suitable command-line tools.
+My hope is to extend the list of supported files as the need arises and maybe add verbosity options, that do *the right thing*
+depending on the filetype.
+
 Usage
 -----
 
