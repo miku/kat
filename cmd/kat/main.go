@@ -26,7 +26,7 @@ $ kat FILE
 `
 
 // Version.
-const Version = "0.1.2"
+const Version = "0.1.3"
 
 // Viewer emits a view of a thing.
 type Viewer interface {
