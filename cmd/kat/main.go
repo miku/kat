@@ -207,6 +207,28 @@ func (f *Djvu) View() ([]byte, error) {
 	return exec.Command("djvutxt", f.Name).Output()
 }
 
+type DebianPackage struct {
+	File
+}
+
+func (f *DebianPackage) View() ([]byte, error) {
+	if _, err := exec.LookPath("dpkg"); err != nil {
+		return nil, fmt.Errorf("dpkg is required")
+	}
+	return exec.Command("dpkg", "-c", f.Name).Output()
+}
+
+type RPM struct {
+	File
+}
+
+func (f *RPM) View() ([]byte, error) {
+	if _, err := exec.LookPath("rpm"); err != nil {
+		return nil, fmt.Errorf("rpm is required")
+	}
+	return exec.Command("rpm", "-qplv", f.Name).Output()
+}
+
 // DispatchFile chooses a viewer for a given filename.
 func DispatchFile(s string) (Viewer, error) {
 	switch {
@@ -244,6 +266,10 @@ func DispatchFile(s string) (Viewer, error) {
 		return &DMG{File{Name: s}}, nil
 	case strings.HasSuffix(s, ".djvu"):
 		return &Djvu{File{Name: s}}, nil
+	case strings.HasSuffix(s, ".deb"):
+		return &DebianPackage{File{Name: s}}, nil
+	case strings.HasSuffix(s, ".rpm"):
+		return &RPM{File{Name: s}}, nil
 	default:
 		return &File{Name: s}, nil
 	}
