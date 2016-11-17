@@ -37,4 +37,4 @@ doc, docx, xlsx, tar, tar.gz, dmg, djvu, deb, rpm.
 $ kat FILE
 ```
 
-[![](docs/63qroppw4y5irohpkcyqpck0t.gif)](https://asciinema.org/a/63qroppw4y5irohpkcyqpck0t)
+[![](docs/dpp4ttb5va06bg9aszae28dil.gif)](https://asciinema.org/a/dpp4ttb5va06bg9aszae28dil)
