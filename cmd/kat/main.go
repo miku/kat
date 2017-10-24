@@ -26,7 +26,7 @@ $ kat FILE
 `
 
 // Version of application.
-const Version = "0.1.3"
+const Version = "0.1.4"
 
 // Viewer emits a view of a thing.
 type Viewer interface {
