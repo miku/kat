@@ -229,6 +229,19 @@ func (f *RPM) View() ([]byte, error) {
 	return exec.Command("rpm", "-qplv", f.Name).Output()
 }
 
+// Gzip file.
+type Gzip struct {
+	File
+}
+
+// View file.
+func (f *Gzip) View() ([]byte, error) {
+	if _, err := exec.LookPath("gunzip"); err != nil {
+		return nil, fmt.Errorf("gunzip is required")
+	}
+	return exec.Command("gunzip", "-c", f.Name).Output()
+}
+
 // DispatchFile chooses a viewer for a given filename.
 func DispatchFile(s string) (Viewer, error) {
 	switch {
@@ -270,6 +283,8 @@ func DispatchFile(s string) (Viewer, error) {
 		return &DebianPackage{File{Name: s}}, nil
 	case strings.HasSuffix(s, ".rpm"):
 		return &RPM{File{Name: s}}, nil
+	case strings.HasSuffix(s, ".gz"):
+		return &Gzip{File{Name: s}}, nil
 	default:
 		return &File{Name: s}, nil
 	}
