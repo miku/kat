@@ -20,12 +20,12 @@ const help = `kat - Preview.app for the command line
 (_)    (_) (_)(_)(_)  (_)  (_)(_)    
 
 Plain text, directories, PDF, JPG, PNG, gif, MARC, zip, tgz, rar, mp3, odt,
-doc, docx, xlsx, tar, tar.gz, dmg, djvu, deb, rpm.
+doc, docx, xlsx, tar, tar.gz, gz, dmg, djvu, deb, rpm.
 
 $ kat FILE
 `
 
-// Version.
+// Version of application.
 const Version = "0.1.3"
 
 // Viewer emits a view of a thing.
@@ -33,7 +33,7 @@ type Viewer interface {
 	View() ([]byte, error)
 }
 
-// File, something that has name.
+// File has a name which often will be a path.
 type File struct {
 	Name string
 }
@@ -85,7 +85,7 @@ func (f *BinaryMARC21) View() ([]byte, error) {
 	return exec.Command("yaz-marcdump", f.Name).Output()
 }
 
-// Zipfile, compressed file.
+// Zipfile compressed file.
 type Zipfile struct {
 	File
 }
@@ -150,7 +150,7 @@ func (f *ODT) View() ([]byte, error) {
 	return exec.Command("docd", "-input", f.Name).Output()
 }
 
-// Word, traditional.
+// Word document.
 type Word struct {
 	File
 }
@@ -207,10 +207,12 @@ func (f *Djvu) View() ([]byte, error) {
 	return exec.Command("djvutxt", f.Name).Output()
 }
 
+// DebianPackage package.
 type DebianPackage struct {
 	File
 }
 
+// View file.
 func (f *DebianPackage) View() ([]byte, error) {
 	if _, err := exec.LookPath("dpkg"); err != nil {
 		return nil, fmt.Errorf("dpkg is required")
@@ -218,10 +220,12 @@ func (f *DebianPackage) View() ([]byte, error) {
 	return exec.Command("dpkg", "-c", f.Name).Output()
 }
 
+// RPM package.
 type RPM struct {
 	File
 }
 
+// View file.
 func (f *RPM) View() ([]byte, error) {
 	if _, err := exec.LookPath("rpm"); err != nil {
 		return nil, fmt.Errorf("rpm is required")
