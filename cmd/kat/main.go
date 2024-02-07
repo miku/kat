@@ -19,8 +19,8 @@ const help = `kat - Preview.app for the command line
 (_)  (_)_(_)_  _  _ (_)_ (_)_  _(_)
 (_)    (_) (_)(_)(_)  (_)  (_)(_)
 
-Plain text, directories, PDF, JPG, PNG, gif, MARC, zip, tgz, rar, mp3, odt,
-doc, docx, xlsx, tar, tar.gz, gz, dmg, djvu, deb, rpm.
+Plain text, directories, PDF, JPG, PNG, gif, MARC, zip, tgz, rar, zstd, mp3,
+odt, doc, docx, xlsx, tar, tar.gz, gz, dmg, djvu, deb, rpm.
 
 $ kat FILE
 `
