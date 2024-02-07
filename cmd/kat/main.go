@@ -10,14 +10,14 @@ import (
 )
 
 const help = `kat - Preview.app for the command line
- _                        _            
-(_)                      (_)           
-(_)     _   _  _  _    _ (_) _  _      
-(_)   _(_) (_)(_)(_) _(_)(_)(_)(_)     
-(_) _(_)    _  _  _ (_)  (_)           
-(_)(_)_   _(_)(_)(_)(_)  (_)     _     
-(_)  (_)_(_)_  _  _ (_)_ (_)_  _(_)    
-(_)    (_) (_)(_)(_)  (_)  (_)(_)    
+ _                        _
+(_)                      (_)
+(_)     _   _  _  _    _ (_) _  _
+(_)   _(_) (_)(_)(_) _(_)(_)(_)(_)
+(_) _(_)    _  _  _ (_)  (_)
+(_)(_)_   _(_)(_)(_)(_)  (_)     _
+(_)  (_)_(_)_  _  _ (_)_ (_)_  _(_)
+(_)    (_) (_)(_)(_)  (_)  (_)(_)
 
 Plain text, directories, PDF, JPG, PNG, gif, MARC, zip, tgz, rar, mp3, odt,
 doc, docx, xlsx, tar, tar.gz, gz, dmg, djvu, deb, rpm.
@@ -246,6 +246,19 @@ func (f *Gzip) View() ([]byte, error) {
 	return exec.Command("gunzip", "-c", f.Name).Output()
 }
 
+// Zstd file.
+type Zstd struct {
+	File
+}
+
+// View file.
+func (f *Zstd) View() ([]byte, error) {
+	if _, err := exec.LookPath("zstd"); err != nil {
+		return nil, fmt.Errorf("zstd is required")
+	}
+	return exec.Command("zstd", "-c", "-d", "-T0", f.Name).Output()
+}
+
 // DispatchFile chooses a viewer for a given filename.
 func DispatchFile(s string) (Viewer, error) {
 	switch {
@@ -289,6 +302,8 @@ func DispatchFile(s string) (Viewer, error) {
 		return &RPM{File{Name: s}}, nil
 	case strings.HasSuffix(s, ".gz"):
 		return &Gzip{File{Name: s}}, nil
+	case strings.HasSuffix(s, ".zst"):
+		return &Zstd{File{Name: s}}, nil
 	default:
 		return &File{Name: s}, nil
 	}
